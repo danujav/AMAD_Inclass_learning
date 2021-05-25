@@ -9,13 +9,14 @@ import ScreenTwo from './components/ScreenTwo'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncView from './components/AsyncView'
+import APIDataFetching from './components/APIDataFetching'
 
 const Stack = createStackNavigator();
 
 export default class App extends Component {
   render() {
     return (
-      <AsyncView/>
+      <APIDataFetching/>
     )
   }
 }
