@@ -4,45 +4,42 @@ import { Table, TableWrapper, Row } from 'react-native-table-component';
 import { Container, Header, Content, Button, Text } from 'native-base';
 
 export default class APIDataFetching extends Component {
-    tableData = [];
-    rowData = [];
 
     constructor(props) {
         super(props);
         this.state = {
           tableHead: ['Name', 'User Name', 'E-mail'],
-          widthArr: [130, 130, 130]
+          widthArr: [130, 130, 130],
+          data: []
         }
-        
+
       }
 
    getData() {
         
-        fetch('https://jsonplaceholder.typicode.com/users/')
-        .then(function(resp) {
-            return resp.json();
-        })
-        .then(function(data){
-            /* for (let i = 0; i < data.length; i += 1) {
-                console.log('====================')
-                console.log(data[i].name , '|' ,data[i].username, '|', data[i].email)
-            } */
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then((response) => response.json())
+    .then((data) => {
+        this.setState({ data })
+    })
+    .catch((error) => console.error(error));
 
-            for(let d of data) {
-                console.log(d.name , '|' ,d.username, '|', d.email)
-            }
-
-        })
+   /*  fetch('https://jsonplaceholder.typicode.com/users')
+    .then(function(resp) {
+        return resp.json();
+    })
+    .then(function(data) {
         
+    }) */
+    
+
+
     }
 
 
   render() {
-
-    const state = this.state;
-    const tableData = [];
-    const rowData = [];
-  
+    const tableData = this.state.data.map(record => ([record.name, record.username, record.email]));
+ 
 
     return (
       <View style={styles.container}>
@@ -57,7 +54,7 @@ export default class APIDataFetching extends Component {
         <ScrollView horizontal={true} style={styles.table}>
           <View>
             <Table borderStyle={{borderWidth: 1, borderColor: '#C1C0B9'}}>
-              <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} textStyle={styles.text}/>
+              <Row data={this.state.tableHead} widthArr={this.state.widthArr} style={styles.header} textStyle={styles.text}/>
             </Table>
             <ScrollView style={styles.dataWrapper}>
               <Table borderStyle={{borderWidth: 1, borderColor: '#C1C0B9'}}>
@@ -66,7 +63,7 @@ export default class APIDataFetching extends Component {
                     <Row
                       key={index}
                       data={rowData}
-                      widthArr={state.widthArr}
+                      widthArr={this.state.widthArr}
                       style={[styles.row, index%2 && {backgroundColor: '#F7F6E7'}]}
                       textStyle={styles.text}
                     />
