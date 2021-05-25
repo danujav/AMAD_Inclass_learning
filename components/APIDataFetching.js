@@ -4,24 +4,36 @@ import { Table, TableWrapper, Row } from 'react-native-table-component';
 import { Container, Header, Content, Button, Text } from 'native-base';
 
 export default class APIDataFetching extends Component {
+    tableData = [];
+    rowData = [];
+
     constructor(props) {
         super(props);
         this.state = {
           tableHead: ['Name', 'User Name', 'E-mail'],
           widthArr: [130, 130, 130]
         }
+        
       }
 
    getData() {
-        fetch('https://jsonplaceholder.typicode.com/users')
-      .then(function(resp) {
-        var arr_from_json = JSON.parse(resp)
-        console.log(arr_from_json.name)
-      })
-      .then(function(data) {
-        /* var arr_from_json = JSON.parse(data)
-        console.log(arr_from_json) */
-      });
+        
+        fetch('https://jsonplaceholder.typicode.com/users/')
+        .then(function(resp) {
+            return resp.json();
+        })
+        .then(function(data){
+            /* for (let i = 0; i < data.length; i += 1) {
+                console.log('====================')
+                console.log(data[i].name , '|' ,data[i].username, '|', data[i].email)
+            } */
+
+            for(let d of data) {
+                console.log(d.name , '|' ,d.username, '|', d.email)
+            }
+
+        })
+        
     }
 
 
@@ -29,13 +41,8 @@ export default class APIDataFetching extends Component {
 
     const state = this.state;
     const tableData = [];
-    for (let i = 0; i < 10; i += 1) {
-      const rowData = [];
-      for (let j = 0; j < 9; j += 1) {
-        rowData.push(`${i}${j}`);
-      }
-      tableData.push(rowData);
-    }
+    const rowData = [];
+  
 
     return (
       <View style={styles.container}>
